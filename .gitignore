@@ -1,0 +1,87 @@
+# Rust & Cargo
+**/target/
+**/*.rs.bk
+*.pdb
+
+# Profile-guided optimization
+pgo-data.profdata
+/tmp
+
+#SP1 Specific
+**/elf/                       
+program/elf/
+zkvm/elf/
+
+# Generated proofs
+**/proof-with-pis.json
+**/proof-with-io.json
+*.proof
+*.bin
+proofs/
+output/
+
+# Verification keys (can be regenerated)
+*.vkey
+
+# Credentials
+.env
+.env.*
+!.env.example
+.cargo/credentials.toml       # Cargo registry credentials
+*.key                         # Private keys
+*.pem                         # Certificates
+secrets/
+
+# SP1 Network credentials
+sp1-credentials.json
+
+#Build Artifacts
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+*.o
+
+# IDE
+.vscode/
+*.code-workspace
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+
+# Linux
+.directory
+
+# Logs
+*.log
+logs/
+*.profraw
+*.profdata
+
+# Testing
+coverage/
+benchmarks/results/
+*.bench
+
+# Test transaction files
+test-transactions/*.json
+!test-transactions/example.json
+
+# Generated test data
+test-data/
+test-proofs/
+
+# Performance profiling
+perf.data
+flamegraph.svg
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# Documentation Build
+/target/doc/

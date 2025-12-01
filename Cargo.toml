@@ -1,0 +1,74 @@
+[workspace]
+members = [
+    "crypto",      # Cryptographic primitives (hybrid curves)
+    "types",       # Shared type definitions
+    "zkvm",        # SP1 guest program (ZK circuit)
+    "prover",      # SP1 host + TEE integration
+    "api",         # REST API service
+]
+resolver = "2"
+
+[workspace.dependencies]
+# SP1 with TEE network support
+sp1-zkvm = "4.0.0"
+sp1-sdk = { version = "4.0.0", features = ["network"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+bincode = "1.3"
+
+# Ethereum cryptography (secp256k1) - for user-facing operations
+secp256k1 = { version = "0.28", features = ["rand", "recovery", "serde", "global-context"] }
+k256 = { version = "0.13", features = ["ecdh", "ecdsa"] }
+
+# Efficient cryptography (Curve25519) - for ZK proofs
+curve25519-dalek = { version = "4.1", default-features = false, features = ["serde"] }
+ed25519-dalek = { version = "2.1", default-features = false }
+
+# Hashing
+sha2 = "0.10"
+sha3 = "0.10"
+keccak-hash = "0.10"
+tiny-keccak = { version = "2.0", features = ["keccak"] }
+hex = "0.4"
+
+# Random number generation
+rand = "0.8"
+rand_core = "0.6"
+getrandom = { version = "0.2", features = ["js"] }
+
+# Async runtime & Web framework
+tokio = { version = "1.35", features = ["full"] }
+axum = "0.7"
+tower = "0.4"
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+
+# HTTP client
+reqwest = { version = "0.11", features = ["json"] }
+
+# CLI
+clap = { version = "4.4", features = ["derive"] }
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Testing
+tokio-test = "0.4"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
+
+[profile.dev]
+opt-level = 0
+
+[profile.release.package.zkvm]
+opt-level = 3
