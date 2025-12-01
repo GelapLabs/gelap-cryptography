@@ -1,5 +1,5 @@
 [package]
-name = "cryptography"
+name = "cryptography-crypto"
 version = "0.1.0"
 edition = "2021"
 
@@ -8,9 +8,7 @@ edition = "2021"
 secp256k1 = { workspace = true }
 k256 = { workspace = true }
 
-
 curve25519-dalek = { workspace = true }
-
 
 sha2 = { workspace = true }
 sha3 = { workspace = true }
@@ -18,9 +16,7 @@ keccak-hash = { workspace = true }
 tiny-keccak = { workspace = true }
 hex = { workspace = true }
 
-
 serde = { workspace = true }
-
 
 rand = { workspace = true }
 rand_core = { workspace = true }
