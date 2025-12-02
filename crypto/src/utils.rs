@@ -30,7 +30,7 @@ pub fn random_bytes<const N: usize>() -> [u8; N] {
 
 pub fn from_hex(s: &str) -> Result<Vec<u8>, String> {
     let s = s.strip_prefix("0x").unwrap_or(s);
-    hex::decode(s).map_err(|e| format!("Invalid hex: {}", e));
+    hex::decode(s).map_err(|e| format!("Invalid hex: {}", e))
 }
 
 pub fn to_hex(data: &[u8]) -> String {
