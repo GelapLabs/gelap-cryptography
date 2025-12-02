@@ -1,0 +1,16 @@
+[package]
+name = "cryptography-zkvm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+sp1-zkvm = { workspace = true }
+serde = { workspace = true }
+bincode = { workspace = true }
+sha2 = { workspace = true }
+
+# Use our shared types
+cryptography-types = { path = "../types" }
+
+[features]
+default = []
