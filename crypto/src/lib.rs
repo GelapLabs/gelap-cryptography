@@ -3,11 +3,11 @@
 // Declare modules
 pub mod errors;
 pub mod pedersen;
+pub mod ring_signature;
 pub mod utils;
 
 // pub mod bridge;
 // pub mod ethereum;
-// pub mod ring_signature;
 // pub mod stealth;
 // pub mod zkproof;
 

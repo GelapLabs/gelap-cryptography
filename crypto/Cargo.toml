@@ -23,6 +23,8 @@ rand_core = { workspace = true }
 
 thiserror = { workspace = true }
 
+bincode = {workspace = true}
+
 [features]
 default = ["std"]
 std = []

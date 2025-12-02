@@ -1299,6 +1299,7 @@ dependencies = [
 name = "cryptography-crypto"
 version = "0.1.0"
 dependencies = [
+ "bincode",
  "curve25519-dalek",
  "hex",
  "k256",
