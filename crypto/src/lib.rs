@@ -1,14 +1,13 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 
 // Declare modules
+pub mod bridge;
 pub mod errors;
 pub mod ethereum;
 pub mod pedersen;
 pub mod ring_signature;
 pub mod utils;
-
-// pub mod bridge;
-// pub mod zkproof;
+pub mod zkproof;
 
 // Re-export commonly used items
 pub use errors::{CryptoError, Result};
