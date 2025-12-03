@@ -11,7 +11,7 @@ pub fn hash_sha256(data: &[u8]) -> [u8; 32] {
     output
 }
 
-pub fn keccak_256(data: &[u8]) -> [u8; 32] {
+pub fn hash_keccak256(data: &[u8]) -> [u8; 32] {
     let mut hasher = Keccak256::new();
     hasher.update(data);
     let result = hasher.finalize();
