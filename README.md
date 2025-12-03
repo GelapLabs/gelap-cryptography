@@ -8,7 +8,8 @@ This system provides **cryptographic primitives** for building privacy-preservin
 
 - **Hidden Amounts**: Pedersen commitments on Ristretto curve
 - **Hidden Senders**: Ring signatures (LSAG variant)
-- **Hidden Receivers**: Stealth addresses (coming soon)
+- **Hidden Receivers**: Stealth addresses for Ethereum (secp256k1)
+- **Curve Bridge**: Convert between secp256k1 and Ristretto curves
 - **ZK Proofs**: SP1-based SNARK proofs for Ethereum verification
 
 ## Architecture
@@ -21,7 +22,9 @@ This system provides **cryptographic primitives** for building privacy-preservin
 │  crypto/          → Cryptographic primitives library         │
 │  ├── pedersen.rs  → Commitment scheme (hide amounts)         │
 │  ├── ring_signature.rs → Ring sigs (hide senders)           │
-│  ├── stealth.rs   → Stealth addresses (hide receivers)       │
+│  ├── ethereum.rs  → Stealth addresses (hide receivers)       │
+│  ├── bridge.rs    → Curve conversions (secp256k1↔Ristretto) │
+│  ├── zkproof.rs   → Unified ZK primitives exports            │
 │  └── utils.rs     → Hash functions & utilities               │
 │                                                               │
 │  types/           → Shared data structures                   │
@@ -89,6 +92,57 @@ assert!(verify_ring(&signature, message, &public_keys));
 
 // Key image prevents double-spending (same for all sigs from same key)
 let key_image = signature.key_image;
+```
+
+### ✅ Ethereum Stealth Addresses
+Hide transaction receiver using stealth address generation on secp256k1.
+
+```rust
+use cryptography_crypto::{generate_stealth_eth, scan_stealth_eth, EthKeyPair};
+
+// Recipient generates view and spend key pairs
+let view_keypair = EthKeyPair::random().unwrap();
+let spend_keypair = EthKeyPair::random().unwrap();
+
+// Sender creates a stealth address for the recipient
+let (stealth_addr, ephemeral_secret) = generate_stealth_eth(
+    &view_keypair.public,
+    &spend_keypair.public
+).unwrap();
+
+// Get the stealth Ethereum address (0x...)
+let stealth_eth_address = format_address(&stealth_addr.stealth_address);
+
+// Recipient scans for their stealth payments
+let found_key = scan_stealth_eth(
+    &stealth_addr,
+    &view_keypair.secret,
+    &spend_keypair.public
+).unwrap();
+
+if found_key.is_some() {
+    // This stealth address belongs to us!
+    // Use found_key to spend the funds
+}
+```
+
+### ✅ Curve Bridge Functions
+Convert between Ethereum's secp256k1 and Ristretto curves for ZK proofs.
+
+```rust
+use cryptography_crypto::{secp256k1_to_ristretto, address_to_ristretto};
+use secp256k1::PublicKey;
+
+// Convert Ethereum public key to Ristretto point
+let eth_pubkey: PublicKey = /* secp256k1 public key */;
+let ristretto_point = secp256k1_to_ristretto(&eth_pubkey);
+
+// Convert Ethereum address to Ristretto point
+let eth_address: EthAddress = [0x42; 20];
+let point = address_to_ristretto(&eth_address);
+
+// Use in ring signatures or commitments
+let public_keys = vec![ristretto_point, /* other points */];
 ```
 
 ## Installation
@@ -315,12 +369,48 @@ impl RingSignature {
 }
 ```
 
+### Ethereum Stealth Addresses
+
+```rust
+// Generate stealth address
+pub fn generate_stealth_eth(
+    recipient_view_pubkey: &PublicKey,
+    recipient_spend_pubkey: &PublicKey,
+) -> Result<(StealthAddressEth, SecretKey)>
+
+// Scan for stealth payments
+pub fn scan_stealth_eth(
+    stealth_addr: &StealthAddressEth,
+    view_secret: &SecretKey,
+    spend_pubkey: &PublicKey,
+) -> Result<Option<SecretKey>>
+
+// Utility functions
+pub fn pubkey_to_address(pubkey: &PublicKey) -> EthAddress
+pub fn format_address(address: &EthAddress) -> String
+pub fn parse_address(s: &str) -> Result<EthAddress>
+pub fn checksum_address(address: &EthAddress) -> String // EIP-55
+```
+
+### Curve Bridge
+
+```rust
+// Convert secp256k1 pubkey to Ristretto point
+pub fn secp256k1_to_ristretto(pubkey: &PublicKey) -> RistrettoPoint
+
+// Convert Ethereum address to Ristretto point
+pub fn address_to_ristretto(address: &EthAddress) -> RistrettoPoint
+
+// Generic hash to Ristretto point
+pub fn hash_to_ristretto(data: &[u8]) -> RistrettoPoint
+```
+
 ### Utilities
 
 ```rust
 // Hash functions
 pub fn hash_sha256(data: &[u8]) -> [u8; 32]
-pub fn keccak_256(data: &[u8]) -> [u8; 32]
+pub fn hash_keccak256(data: &[u8]) -> [u8; 32]
 
 // Hex conversion
 pub fn to_hex(data: &[u8]) -> String
@@ -454,9 +544,10 @@ SP1_PROVER=network cargo run --release --bin evm
 ## Roadmap
 
 - [x] Pedersen commitments
-- [x] Ring signatures
-- [ ] Stealth addresses
-- [ ] Ethereum address integration (secp256k1 bridge)
+- [x] Ring signatures (LSAG with key images)
+- [x] Ethereum stealth addresses (secp256k1)
+- [x] Curve bridge (secp256k1 ↔ Ristretto)
+- [x] Unified zkproof module
 - [ ] SP1 zkVM circuit implementation
 - [ ] Prover service with network support
 - [ ] Solidity verifier contracts
