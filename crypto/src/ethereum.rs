@@ -323,7 +323,7 @@ mod tests {
 
     #[test]
     fn test_checksum_address() {
-        let addr = parse_address("0x5aAeb6053f3E94C9b9A09f33669435E7Ef1BeAed").unwrap();
+        let addr = parse_address("0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed").unwrap();
         let checksummed = checksum_address(&addr);
 
         assert_eq!(checksummed, "0x5aAeb6053F3E94C9b9A09f33669435E7Ef1BeAed");
