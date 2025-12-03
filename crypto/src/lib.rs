@@ -13,7 +13,7 @@ pub mod zkproof;
 pub use errors::{CryptoError, Result};
 
 // Pedersen commitment exports
-pub use pedersen::{commit, verify_commitment, PedersenCommitment};
+pub use pedersen::{commit, generate_blinding, verify_commitment, PedersenCommitment};
 
 // Ethereum module exports
 pub use ethereum::{
@@ -24,15 +24,19 @@ pub use ethereum::{
 // Ring signature module exports
 pub use ring_signature::{sign_ring, verify_ring, RingSignature};
 
-// // Stealth address exports
-// pub use stealth::{generate_stealth, scan_stealth, StealthAddress};
+// Bridge module exports
+pub use bridge::{address_to_ristretto, hash_to_ristretto, secp256k1_to_ristretto};
 
-// pub use bridge::{address_to_ring_member, secp256k1_to_commitment};
+pub use zkproof::*;
 
 #[cfg(test)]
 mod tests {
+
+    use super::*;
+
     #[test]
     fn test_module_structure() {
-        assert!(true)
+        let _blinding = generate_blinding();
+        println!("All modules accessible");
     }
 }
