@@ -2,8 +2,8 @@
 
 pub mod commitment;
 pub mod signature;
+pub mod stealth;
 
 // pub mod proof;
-// pub mod stealth;
 // pub mod transaction;
 // pub mod wallet;
