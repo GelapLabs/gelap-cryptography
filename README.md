@@ -48,6 +48,23 @@ This system provides **cryptographic primitives** for building privacy-preservin
                     └──────────────────┘
 ```
 
+## Recent Updates
+
+### ✅ zkVM Transaction Verification (Latest)
+Implemented complete transaction verification logic inside SP1 zkVM with:
+- **LSAG Ring Signature Verification**: Validates ring signatures with proper challenge-response verification
+- **Pedersen Commitment Balance**: Ensures input amounts equal output amounts
+- **Key Image Validation**: Prevents double-spending through unique key images
+- **Proper Ristretto Point Handling**: Fixed cryptographic point decompression and validation
+
+### ✅ EVM Proof Generation
+Added EVM-compatible proof generation with:
+- **Groth16 Support**: Generate smallest, most gas-efficient proofs for Ethereum
+- **PLONK Support**: Alternative proof system option
+- **Network Prover Integration**: Leverage Succinct Prover Network for production
+- **Test Transaction Generation**: Proper LSAG ring signature creation with cryptographically valid points
+- **Fixture Output**: Generates JSON fixtures for Solidity contract testing
+
 ## Features Implemented
 
 ### ✅ Pedersen Commitments
@@ -548,10 +565,12 @@ SP1_PROVER=network cargo run --release --bin evm
 - [x] Ethereum stealth addresses (secp256k1)
 - [x] Curve bridge (secp256k1 ↔ Ristretto)
 - [x] Unified zkproof module
-- [ ] SP1 zkVM circuit implementation
-- [ ] Prover service with network support
+- [x] SP1 zkVM circuit implementation (transaction verification)
+- [x] LSAG ring signature generation with proper cryptographic validation
+- [x] Prover service with network support (Groth16/PLONK)
+- [x] EVM-compatible proof generation
 - [ ] Solidity verifier contracts
-- [ ] Transaction format & serialization
+- [x] Transaction format & serialization
 - [ ] SDK for wallet integration
 
 ## Examples
