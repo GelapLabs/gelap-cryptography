@@ -5,25 +5,35 @@ edition = "2021"
 
 [[bin]]
 name = "prove"
-path = "src/main.rs"
+path = "src/bin/main.rs"
 
 [[bin]]
 name = "vkey"
 path = "src/bin/vkey.rs"
 
+[[bin]]
+name = "evm"
+path = "src/bin/evm.rs"
+
 [dependencies]
 sp1-sdk = { workspace = true }
 serde = { workspace = true }
-serde_json = { workspace = true }
 bincode = { workspace = true }
-hex = { workspace = true }
-anyhow = { workspace = true }
-clap = { workspace = true }
-tracing = { workspace = true }
-tracing-subscriber = { workspace = true }
+anyhow = "1.0"
+hex = "0.4"
+tokio = {version = "1.0", features = ["full"]}
+clap = {version = "4.0", features = ["derive"]}
+alloy-sol-types = {workspace = true}
+serde_json = {workspace = true}
 
 # Use our shared types
 cryptography-types = { path = "../types" }
+cryptography-crypto = {path = "../crypto"}
+
+# Crypto
+curve25519-dalek = { workspace = true }
+sha2 = { workspace = true }
+rand = "0.8"
 
 [build-dependencies]
 sp1-build = "4.0.0"
