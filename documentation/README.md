@@ -6,6 +6,7 @@ Welcome to the Gelap Cryptography documentation! This library provides cryptogra
 
 ### Getting Started
 - [Architecture Overview](./ARCHITECTURE.md) - System design and core components
+- [System Design](./SYSTEM_DESIGN.md) - Detailed technical design document
 - [API Reference](./API_REFERENCE.md) - Complete Rust API documentation
 
 ### Development
