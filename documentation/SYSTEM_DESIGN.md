@@ -237,8 +237,8 @@ graph TB
         C[Ring of Public Keys] --> S
         D[Secret Index] --> S
         S --> E[Key Image]
-        S --> F[Challenges c[]]
-        S --> G[Responses r[]]
+        S --> F["Challenges c[]"]
+        S --> G["Responses r[]"]
     end
     
     subgraph "Verification"
