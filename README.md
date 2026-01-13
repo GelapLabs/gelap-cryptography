@@ -16,35 +16,34 @@ This system provides **cryptographic primitives** for building privacy-preservin
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                    Gelap Cryptography                        │
+│                    Gelap Cryptography                       │
 ├─────────────────────────────────────────────────────────────┤
-│                                                               │
-│  crypto/          → Cryptographic primitives library         │
-│  ├── pedersen.rs  → Commitment scheme (hide amounts)         │
+│                                                             │
+│  crypto/          → Cryptographic primitives library        │
+│  ├── pedersen.rs  → Commitment scheme (hide amounts)        │
 │  ├── ring_signature.rs → Ring sigs (hide senders)           │
-│  ├── ethereum.rs  → Stealth addresses (hide receivers)       │
+│  ├── ethereum.rs  → Stealth addresses (hide receivers)      │
 │  ├── bridge.rs    → Curve conversions (secp256k1↔Ristretto) │
-│  ├── zkproof.rs   → Unified ZK primitives exports            │
-│  └── utils.rs     → Hash functions & utilities               │
-│                                                               │
-│  types/           → Shared data structures                   │
-│  ├── transaction.rs → Transaction format                     │
-│  ├── commitment.rs  → Commitment types                       │
-│  └── signature.rs   → Signature types                        │
-│                                                               │
-│  zkvm/            → SP1 guest program (verification circuit) │
+│  ├── zkproof.rs   → Unified ZK primitives exports           │
+│  └── utils.rs     → Hash functions & utilities              │
+│                                                             │
+│  types/           → Shared data structures                  │
+│  ├── transaction.rs → Transaction format                    │
+│  ├── commitment.rs  → Commitment types                      │
+│  └── signature.rs   → Signature types                       │
+│                                                             │
+│  zkvm/            → SP1 guest program (verification circuit)│
 │  └── main.rs      → Runs inside zkVM to verify tx           │
-│                                                               │
-│  prover/          → SP1 host (proof generation service)      │
+│                                                             │
+│  prover/          → SP1 host (proof generation service)     │
 │  └── main.rs      → Generates proofs for Solidity           │
-│                                                               │
+│                                                             │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
                     ┌──────────────────┐
                     │  Solidity Smart  │
                     │    Contracts     │
-                    │  (Your Team)     │
                     └──────────────────┘
 ```
 
